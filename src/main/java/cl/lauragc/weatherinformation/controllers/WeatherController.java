@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.lauragc.weatherinformation.DayWeatherRest;
+import cl.lauragc.weatherinformation.CityWeather;
 import cl.lauragc.weatherinformation.IWeatherBusiness;
+import cl.lauragc.weatherinformation.WeatherRestResponse;
 
 @RestController
 public class WeatherController {
@@ -16,8 +17,8 @@ public class WeatherController {
 	IWeatherBusiness weatherBusiness;
 	
 	@GetMapping("weathers/city")
-	public ResponseEntity<DayWeatherRest> getWeatherByCity(@RequestParam(value = "name", defaultValue = "") String city) {
-		DayWeatherRest response = weatherBusiness.getWeatherByCity(city);
-		return new ResponseEntity<DayWeatherRest>(response, HttpStatus.OK);
+	public ResponseEntity<WeatherRestResponse > getWeatherByCity(@RequestParam(value = "name", defaultValue = "") String city) {
+		WeatherRestResponse response = weatherBusiness.getWeatherByCity(city);
+		return new ResponseEntity<WeatherRestResponse >(response, HttpStatus.OK);
 	}
 }
