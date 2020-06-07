@@ -1,6 +1,6 @@
-package cl.lauragc.WeatherInformation;
+package cl.lauragc.weatherinformation;
 
-public class Weather {
+public class DayWeatherRest {
 
 	private final String cityName;
 	private final int celsiusMin;
@@ -8,7 +8,7 @@ public class Weather {
 	private final int farenheitMin;
 	private final int farenheitMax;
 	
-	public Weather(String cityName, int celsiusMin, int celsiusMax, int farenheitMin, int farenheitMax) {
+	public DayWeatherRest(String cityName, int celsiusMin, int celsiusMax, int farenheitMin, int farenheitMax) {
 		this.cityName = cityName;
 		this.celsiusMin = celsiusMin;
 		this.celsiusMax = celsiusMax;
