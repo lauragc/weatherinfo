@@ -5,12 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class City {
-	private String type;
-	private String value;
+	@JsonProperty("title")
+	private String name;
 	@JsonProperty("latt_long")
-	private float lattAndLong;
+	private String lattAndLong;
 	private int woeid;
-	private int distance;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getLattAndLong() {
+		return lattAndLong;
+	}
+	public void setLattAndLong(String lattAndLong) {
+		this.lattAndLong = lattAndLong;
+	}
+	public int getWoeid() {
+		return woeid;
+	}
+	public void setWoeid(int woeid) {
+		this.woeid = woeid;
+	}
 	
 }
