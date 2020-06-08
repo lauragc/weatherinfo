@@ -1,6 +1,8 @@
 package cl.lauragc.weatherinformation;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,6 @@ public class WeatherBusiness implements IWeatherBusiness{
 			errors.add(error);
 		}
 		else {
-			// obtain temperatures
-			// Transform from celsius to farenheit (put in a helper, maybe?)
-			// return the object
 			List<City> cities = this.getCitiesByName(cityName);
 			List<CityWeather> weathers = new ArrayList<CityWeather>();
 			for(City city : cities){
@@ -82,8 +81,7 @@ public class WeatherBusiness implements IWeatherBusiness{
 			String jsonResponse = new RestConsumer<String, String>().execute(new RequestDetails("https://www.metaweather.com/api/location/" + woeid, HttpMethod.GET), "", responseHandler, String.class);
 			if(jsonResponse!=null) {
 				ConsolidatedWeatherResponse weathersByCity = mapper.readValue(jsonResponse,ConsolidatedWeatherResponse.class);
-				//TODO: get the most recent weather status
-				weatherByCity = weathersByCity.getConsolidatedWeather().get(0);
+				weatherByCity = weathersByCity.getConsolidatedWeather().stream().max(Comparator.comparing(CityWeather::getDate)).get();
 			}
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();

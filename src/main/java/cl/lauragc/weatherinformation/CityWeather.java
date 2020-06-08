@@ -1,11 +1,15 @@
 package cl.lauragc.weatherinformation;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CityWeather {
 	private String cityName;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Date date;
 	private Float celsiusMin;
 	private Float celsiusMax;
 	private Float farenheitMin;
@@ -49,7 +53,7 @@ public class CityWeather {
 	public void setCelsiusMin(Float celsiusMin) {
 		this.celsiusMin = celsiusMin;
 	}
-	@JsonProperty("max_temp")
+	
 	public void setCelsiusMax(Float celsiusMax) {
 		this.celsiusMax = celsiusMax;
 	}
@@ -61,5 +65,13 @@ public class CityWeather {
 	public void setFarenheitMax(Float farenheitMax) {
 		this.farenheitMax = farenheitMax;
 	}
+	public Date getDate() {
+		return date;
+	}
+	@JsonProperty("applicable_date")
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 
 }
