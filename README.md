@@ -7,7 +7,7 @@ To test it locally, send a Http GET request
 to this url http://localhost:8080/api/weathers/city?name=london
 
 London can be changed for any city name.
-If the query param that you send can be in more than one city name,the service is gonna be displayed all the cities with this name with their respective weathers.
+If the query param that you send can be in more than one city name, the service is going to answer with all the cities with this name in it, with their respective weathers.
 
 
 
