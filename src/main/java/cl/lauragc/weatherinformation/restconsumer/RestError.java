@@ -1,4 +1,4 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.restconsumer;
 
 public class RestError {
 	private int status;

@@ -1,4 +1,4 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.viewmodels;
 
 import org.springframework.http.HttpMethod;
 

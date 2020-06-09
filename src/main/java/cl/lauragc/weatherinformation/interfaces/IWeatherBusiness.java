@@ -1,4 +1,6 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.interfaces;
+
+import cl.lauragc.weatherinformation.viewmodels.WeatherRestResponse;
 
 public interface IWeatherBusiness {
 	/**

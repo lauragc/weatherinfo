@@ -1,4 +1,4 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.restconsumer;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+
+import cl.lauragc.weatherinformation.viewmodels.RequestDetails;
 
 public class RestConsumer<T,V> {
 	

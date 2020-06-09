@@ -1,6 +1,8 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.viewmodels;
 
 import java.util.List;
+
+import cl.lauragc.weatherinformation.restconsumer.RestError;
 
 public class WeatherRestResponse {
 	private List<CityWeather> data;

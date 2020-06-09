@@ -1,12 +1,20 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.business;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+
+import cl.lauragc.weatherinformation.interfaces.IWeatherBusiness;
 import cl.lauragc.weatherinformation.restconsumer.City;
+import cl.lauragc.weatherinformation.restconsumer.RestConsumer;
+import cl.lauragc.weatherinformation.restconsumer.RestError;
+import cl.lauragc.weatherinformation.restconsumer.RestResponseErrorHandler;
+import cl.lauragc.weatherinformation.viewmodels.CityWeather;
+import cl.lauragc.weatherinformation.viewmodels.ConsolidatedWeatherResponse;
+import cl.lauragc.weatherinformation.viewmodels.RequestDetails;
+import cl.lauragc.weatherinformation.viewmodels.WeatherRestResponse;
 
 import org.springframework.web.client.ResourceAccessException;
 
@@ -26,16 +34,21 @@ public class WeatherBusiness implements IWeatherBusiness{
 		else {
 			List<City> cities = this.getCitiesByName(cityName);
 			List<CityWeather> weathers = new ArrayList<CityWeather>();
-			for(City city : cities){
-				CityWeather weather = getWeatherByWoeid(String.valueOf(city.getWoeid()));
-				if(weather!=null) {
-					weather.setCityName(city.getName());
-					weather.setFarenheitMin(this.celsiusToFarenheit(weather.getCelsiusMin()));
-					weather.setFarenheitMax(this.celsiusToFarenheit(weather.getCelsiusMax()));
-					weathers.add(weather);
-				} else {
-					RestError error = new RestError(500,"We couldnt get the weather of " + city.getName());
-					errors.add(error);
+			if(cities.isEmpty()) {
+				RestError error = new RestError(404,"That city doesn't exist!");
+				errors.add(error);
+			} else {
+				for(City city : cities){
+					CityWeather weather = getWeatherByWoeid(String.valueOf(city.getWoeid()));
+					if(weather!=null) {
+						weather.setCityName(city.getName());
+						weather.setFarenheitMin(this.celsiusToFarenheit(weather.getCelsiusMin()));
+						weather.setFarenheitMax(this.celsiusToFarenheit(weather.getCelsiusMax()));
+						weathers.add(weather);
+					} else {
+						RestError error = new RestError(500,"We couldnt get the weather of " + city.getName());
+						errors.add(error);
+					}
 				}
 			}
 			response.setData(weathers);
@@ -78,11 +91,8 @@ public class WeatherBusiness implements IWeatherBusiness{
 		CityWeather weatherByCity = new CityWeather();
 		RestResponseErrorHandler responseHandler = new RestResponseErrorHandler();
 		try {
-			String jsonResponse = new RestConsumer<String, String>().execute(new RequestDetails("https://www.metaweather.com/api/location/" + woeid, HttpMethod.GET), "", responseHandler, String.class);
-			if(jsonResponse!=null) {
-				ConsolidatedWeatherResponse weathersByCity = mapper.readValue(jsonResponse,ConsolidatedWeatherResponse.class);
-				weatherByCity = weathersByCity.getConsolidatedWeather().stream().max(Comparator.comparing(CityWeather::getDate)).get();
-			}
+			ConsolidatedWeatherResponse weathersByCity = new RestConsumer<String, ConsolidatedWeatherResponse>().execute(new RequestDetails("https://www.metaweather.com/api/location/" + woeid, HttpMethod.GET), "", responseHandler, ConsolidatedWeatherResponse.class);
+			weatherByCity = weathersByCity.getConsolidatedWeather().stream().min(Comparator.comparing(CityWeather::getDate)).get();
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-package cl.lauragc.weatherinformation;
+package cl.lauragc.weatherinformation.restconsumer;
 
 import java.io.IOException;
 
